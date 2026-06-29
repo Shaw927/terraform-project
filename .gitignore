@@ -1,0 +1,21 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+*.tfvars
+!*.tfvars.example
+.terraformrc
+terraform.rc
+crash.log
+override.tf
+override.tf.json
+
+# Secrets
+.env
+*.pem
+*.key
+
+# OS
+.DS_Store
+

@@ -1,0 +1,4 @@
+FROM hashicorp/terraform:latest AS source
+FROM ubuntu:22.04
+COPY --from=source /bin/terraform /output/terraform
+RUN ls -la /output/
