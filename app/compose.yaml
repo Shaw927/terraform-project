@@ -3,34 +3,13 @@ include:
 
 services:
   web:
-    build: 
-      context: .
-      dockerfile: Dockerfile.python
-    networks:
-      backend:
-        ipv4_address: 172.20.0.5
+    image: cr.yandex/crpmulovogms0f80agjl/webapp:latest
+    ports:
+      - "80:5000"
     environment:
-      - DB_HOST=db
-      - DB_USER=${MYSQL_USER} # Точно не малютка
-      - DB_PASSWORD=${MYSQL_PASSWORD}
-      - DB_NAME=${MYSQL_DATABASE}
+      - DB_HOST=${DB_HOST}      # FQDN из outputs.tf
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
     restart: unless-stopped
 
-  db:
-    image: mysql:8.4
-    networks:
-      backend:
-        ipv4_address: 172.20.0.10
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    restart: unless-stopped
-
-networks:
-  backend:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/24

@@ -1,0 +1,18 @@
+services:
+  web:
+    image: ${registry_url}/webapp:${image_tag}
+    restart: unless-stopped
+    env_file:
+      - /opt/webapp/.env
+    expose:
+      - "${app_port}"
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - /opt/webapp/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - web

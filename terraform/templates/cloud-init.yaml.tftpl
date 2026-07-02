@@ -1,0 +1,54 @@
+#cloud-config
+
+users:
+  - name: ${username}
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+
+write_files:
+  - path: /opt/webapp/nginx.conf
+    owner: root:root
+    permissions: '0644'
+    content: |
+      ${indent(6, nginx_conf)}
+
+  - path: /opt/webapp/docker-compose.yml
+    owner: root:root
+    permissions: '0644'
+    content: |
+      ${indent(6, docker_compose_content)}
+
+  - path: /opt/webapp/.env
+    owner: ubuntu:ubuntu
+    permissions: '0640'
+    content: |
+      DB_HOST=${db_host}
+      DB_PORT=3306
+      DB_NAME=${db_name}
+      DB_USER=${db_user}
+      DB_PASSWORD=${db_password}
+      APP_PORT=${app_port}
+
+packages:
+  - ca-certificates
+  - curl
+  - gnupg
+  - apt-transport-https
+  - python3
+
+runcmd:
+  - install -m 0755 -d /etc/apt/keyrings
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  - chmod a+r /etc/apt/keyrings/docker.gpg
+  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | tee /etc/apt/sources.list.d/docker.list
+  - apt-get update -y
+  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  - systemctl enable --now docker
+  - usermod -aG docker ${username}
+  - |
+    TOKEN=$(curl -sf -H Metadata-Flavor:Google       http://169.254.169.254/computeMetadata/v1/instance/service-accounts/default/token       | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])")
+    echo "$TOKEN" | docker login --username iam --password-stdin cr.yandex
+  - mkdir -p /opt/webapp
+  - cd /opt/webapp && docker compose up -d
