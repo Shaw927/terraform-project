@@ -51,7 +51,6 @@ yc container image list
 yc container image delete <ID образа>
 terraform destroy
 ```
-![Uploading image.png…]()
 
 
 
