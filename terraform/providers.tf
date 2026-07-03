@@ -2,7 +2,7 @@ terraform {
   required_providers {
     yandex = {
       source  = "yandex-cloud/yandex"
-      version = ">= 0.13"
+      version = "~> 0.130"
     }
     null = {
       source  = "hashicorp/null"

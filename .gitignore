@@ -21,7 +21,6 @@ terraform/*.backend.hcl
 .DS_Store
 
 
-# Terraform state и секреты
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
 terraform/terraform.tfvars

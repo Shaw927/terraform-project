@@ -10,18 +10,6 @@ resource "yandex_mdb_mysql_cluster" "main" {
     disk_size          = 10
   }
 
-  database { name = var.db_name }
-
-  user {
-    name     = var.db_user
-    password = local.db_password
-
-    permission {
-      database_name = var.db_name
-      roles         = ["ALL"]
-    }
-  }
-
   host {
     zone             = var.zone
     subnet_id        = yandex_vpc_subnet.main.id
@@ -29,3 +17,18 @@ resource "yandex_mdb_mysql_cluster" "main" {
   }
 }
 
+resource "yandex_mdb_mysql_database" "main" {
+  cluster_id = yandex_mdb_mysql_cluster.main.id
+  name       = var.db_name
+}
+
+resource "yandex_mdb_mysql_user" "main" {
+  cluster_id = yandex_mdb_mysql_cluster.main.id
+  name       = var.db_user
+  password   = local.db_password
+
+  permission {
+    database_name = yandex_mdb_mysql_database.main.name
+    roles         = ["ALL"]
+  }
+}

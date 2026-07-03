@@ -75,8 +75,3 @@ variable "db_user" {
   default = "webapp"
 }
 
-variable "vpc_name" {
-  description = "VPC network name"
-  type        = string
-  default     = "final-project-vpc"
-}
