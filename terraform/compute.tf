@@ -45,7 +45,7 @@ resource "yandex_compute_instance" "vm" {
     user-data = templatefile("${path.module}/templates/cloud-init.yaml.tftpl", {
       username               = var.vm_username
       ssh_public_key         = var.vm_ssh_public_key
-      registry_url           = "cr.yandex/${yandex_container_registry.main.id}"
+      registry_url           = local.registry_url
       db_host                = yandex_mdb_mysql_cluster.main.host[0].fqdn
       db_password            = local.db_password
       db_name                = var.db_name

@@ -10,7 +10,8 @@ terraform.rc
 crash.log
 override.tf
 override.tf.json
-
+terraform/backend.hcl
+terraform/*.backend.hcl
 # Secrets
 .env
 *.pem

@@ -1,12 +1,12 @@
 services:
   web:
     image: ${registry_url}/webapp:${image_tag}
-    restart: unless-stopped
-    env_file:
-      - /opt/webapp/.env
+    container_name: webapp
     expose:
       - "${app_port}"
-
+    env_file:
+      - .env
+    restart: unless-stopped
   nginx:
     image: nginx:alpine
     restart: unless-stopped
