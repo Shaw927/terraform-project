@@ -36,9 +36,9 @@ terraform plan -out=tfplan
 terraform apply tfplan
 ```
 Важно:
-•	Образ приложения собирается и пушится в Container Registry локально (через  null_resource  +  local-exec ), поэтому на машине, откуда запускаешь  terraform apply, должны быть установлены docker и yc
-•	 terraform.tfstate ,  terraform.tfvars  и  backend.hcl  не хранятся в git — там секреты и реальные данные инфраструктуры.
-•	Пароль от БД можно передать напрямую через  db_password  в  tfvars , либо (рекомендуется) положить в Yandex Lockbox и указать  lockbox_secret_id тогда пароль подтянется автоматически.
+- Образ приложения собирается и пушится в Container Registry локально (через  null_resource  +  local-exec ), поэтому на машине, откуда запускаешь  terraform apply, должны быть установлены docker и yc
+- terraform.tfstate ,  terraform.tfvars  и  backend.hcl  не хранятся в git — там секреты и реальные данные инфраструктуры.
+- Пароль от БД можно передать напрямую через  db_password  в  tfvars , либо (рекомендуется) положить в Yandex Lockbox и указать  lockbox_secret_id тогда пароль подтянется автоматически.
 - после  terraform destroy  сам bucket с remote state (S3) не удаляется, Terraform чистит только описанные в коде ресурсы, а бакет для state создаётся отдельно и вручную
 
 
@@ -51,3 +51,8 @@ yc container image list
 yc container image delete <ID образа>
 terraform destroy
 ```
+![Uploading image.png…]()
+
+
+
+
