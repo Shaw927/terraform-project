@@ -1,0 +1,6 @@
+yc_token          = "your-oauth-or-iam-token"
+cloud_id          = "your-cloud-id"
+folder_id         = "your-folder-id"
+vm_ssh_public_key = "ssh-ed25519 AAAA... user@host"
+lockbox_secret_id = ""
+db_password       = "change-me"
