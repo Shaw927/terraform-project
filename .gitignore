@@ -20,3 +20,11 @@ terraform/*.backend.hcl
 # OS
 .DS_Store
 
+
+# Terraform state и секреты
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/terraform.tfvars
+terraform/backend.hcl
+terraform/.terraform/
+terraform/.terraform.lock.hcl
